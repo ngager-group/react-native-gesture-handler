@@ -5,7 +5,8 @@
 #import <React/RCTComponent.h>
 #import <React/RCTRootView.h>
 #import <React/RCTTouchHandler.h>
-#import <React/RCTRootContentView.h>
+// #import <React/RCTRootContentView.h>
+#import "RCTRootContentView.h"
 
 #import "RNGestureHandlerState.h"
 #import "RNGestureHandler.h"
@@ -67,17 +68,17 @@
                 @"ForceTouchGestureHandler": [RNForceTouchHandler class],
                 };
     });
-    
+
     Class nodeClass = map[handlerName];
     if (!nodeClass) {
         RCTLogError(@"Gesture handler type %@ is not supported", handlerName);
         return;
     }
-    
+
     RNGestureHandler *gestureHandler = [[nodeClass alloc] initWithTag:handlerTag];
     [gestureHandler configure:config];
     [_registry registerGestureHandler:gestureHandler];
-    
+
     __weak id<RNGestureHandlerEventEmitter> emitter = self;
     gestureHandler.emitter = emitter;
 }
@@ -129,7 +130,7 @@
 {
     UIView *parent = childView;
     while (parent != nil && ![parent isKindOfClass:[RCTRootView class]]) parent = parent.superview;
-    
+
     RCTRootView *rootView = (RCTRootView *)parent;
     UIView *rootContentView = rootView.contentView;
     if (rootContentView != nil && ![_rootViews containsObject:rootContentView]) {
